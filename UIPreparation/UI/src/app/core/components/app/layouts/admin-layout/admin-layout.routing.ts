@@ -7,7 +7,11 @@ import { OperationClaimComponent } from 'app/core/components/admin/operationclai
 import { TranslateComponent } from 'app/core/components/admin/translate/translate.component';
 import { UserComponent } from 'app/core/components/admin/user/user.component';
 import { LoginGuard } from 'app/core/guards/login-guard';
+import { CustomerComponent } from '../../customer/customer.component';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
+import { OrderComponent } from '../../order/order.component';
+import { ProductComponent } from '../../product/product.component';
+import { WareHouseComponent } from '../../wareHouse/wareHouse.component';
 
 
 
@@ -22,6 +26,10 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'language',       component: LanguageComponent,canActivate:[LoginGuard]},
     { path: 'translate',      component: TranslateComponent,canActivate:[LoginGuard]},
     { path: 'operationclaim', component: OperationClaimComponent,canActivate:[LoginGuard]},
-    { path: 'log',            component: LogDtoComponent,canActivate:[LoginGuard]}
+    { path: 'product',            component: ProductComponent,canActivate:[LoginGuard]},
+    { path: 'customer',            component: CustomerComponent,canActivate:[LoginGuard]},
+    { path: 'order',            component: OrderComponent,canActivate:[LoginGuard]},
+    { path: 'warehouse',            component: WareHouseComponent,canActivate:[LoginGuard]},
+
     
 ];

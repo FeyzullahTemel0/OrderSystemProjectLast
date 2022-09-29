@@ -30,10 +30,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { OrderComponent } from '../components/app/order/order.component';
 import { ProductComponent } from '../components/app/product/product.component';
-import { CustomerComponent } from '../components/app/customer/customer.component';
 import { WareHouseComponent } from '../components/app/wareHouse/wareHouse.component';
-
-
+import { CustomerComponent } from '../components/app/customer/customer.component';
 
 @NgModule({
     imports: [
@@ -70,7 +68,11 @@ import { WareHouseComponent } from '../components/app/wareHouse/wareHouse.compon
         LanguageComponent,
         TranslateComponent,
         OperationClaimComponent,
-        LogDtoComponent
+        LogDtoComponent,
+        OrderComponent,
+        ProductComponent,
+        WareHouseComponent,
+        CustomerComponent
  
     ]
 })
