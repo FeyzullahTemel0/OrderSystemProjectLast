@@ -22,6 +22,7 @@ namespace Business.Handlers.Orders.Commands
 
         public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrderCommand, IResult>
         {
+
             private readonly IOrderRepository _orderRepository;
             private readonly IMediator _mediator;
 

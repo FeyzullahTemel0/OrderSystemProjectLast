@@ -15,6 +15,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { LoginGuard } from './core/guards/login-guard';
 import { AuthInterceptorService } from './core/interceptors/auth-interceptor.service';
 import { HttpEntityRepositoryService } from './core/services/http-entity-repository.service';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 
 
 // i18 kullanıclak ise aşağıdaki metod aktif edilecek
@@ -39,6 +41,7 @@ export function tokenGetter() {
     HttpClientModule,
     ComponentsModule,
     RouterModule,
+    MatAutocompleteModule,
     AppRoutingModule,
     NgMultiSelectDropDownModule.forRoot(),
     SweetAlert2Module.forRoot(),
@@ -58,6 +61,7 @@ export function tokenGetter() {
     AppComponent,
     AdminLayoutComponent
   ],
+  exports:[MatAutocompleteModule],
 
   providers: [
     LoginGuard,

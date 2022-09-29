@@ -7,7 +7,6 @@ namespace Entities.Concrete
 {
     public class WareHouse : BaseEntity, IEntity
     {
-        
         public int ProductId { get; set; }
         public int Amount { get; set; }
         public bool isReady { get; set; }

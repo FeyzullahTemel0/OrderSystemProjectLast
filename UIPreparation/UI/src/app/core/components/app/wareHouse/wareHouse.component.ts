@@ -34,13 +34,14 @@ export class WareHouseComponent implements AfterViewInit, OnInit {
 	wareHouse: WareHouse = new WareHouse();
 	wareHouseAddForm: FormGroup;
 	productList: Product[] = [];
+	productlookUp: Product[] = [];
 
 	sizelookUp: LookUp[] = [];
 	sizess: string[] = Object.keys(QualityControlTypeEnumLabelMapping);
 	wareHouseId: number;
 
 	//autocomplete
-	filteredProducts: Observable<Product[]>;
+	filterProduct: Observable<Product[]>;
 
 
 
@@ -48,7 +49,6 @@ export class WareHouseComponent implements AfterViewInit, OnInit {
 
 	ngAfterViewInit(): void {
 		this.getWareHouseDto();
-		this.getProductList();
 	}
 
 	ngOnInit() {
@@ -74,12 +74,27 @@ export class WareHouseComponent implements AfterViewInit, OnInit {
 		})
 	}
 
+
+	private _filter(value: string): Product[] {
+		const filterValue = value.toLowerCase();
+
+		return this.productlookUp.filter(option => option.name.toLowerCase().includes(filterValue));
+	}
+	displayFn(product: Product): string {
+		return product && product.name ? product.name : '';
+	}
+	
 	getProductList() {
 		this.productService.getProductList().subscribe(data => {
-			this.productList = data;
+			this.productlookUp = data;
+
+			this.filterProduct = this.wareHouseAddForm.controls.productId.valueChanges.pipe(
+				startWith(''),
+				map(value => typeof value === 'string' ? value : value.productName),
+				map(name => name ? this._filter(name) : this.productlookUp.slice())
+			);
 		})
 	}
-
 
 	//sizelookupa id gönder id si eşit olan labeli getir...
 	getSizeLabel(id: number) {
@@ -89,31 +104,35 @@ export class WareHouseComponent implements AfterViewInit, OnInit {
 	save() {
 		if (this.wareHouseAddForm.valid) {
 			this.wareHouse = Object.assign({}, this.wareHouseAddForm.value)
+			this.wareHouse.productId = this.wareHouse.productId['id'];
 			console.log(this.wareHouse);
-			console.log(this.wareHouseAddForm.value);
 			
-
 			if (this.wareHouse.id == 0) {
 				this.wareHouse.createdUserId = this.authService.getCurrentUserId();
 				this.wareHouse.lastUpdatedUserId = this.authService.getCurrentUserId();
+				console.log(this.wareHouse);
 				
 				this.addWareHouse();
 			}
 			else
+			{
+				this.wareHouse.lastUpdatedUserId = this.authService.getCurrentUserId();
 				this.updateWareHouse();
+			}
 		}
 	}
 
 	addWareHouse() {
-
 		this.wareHouseService.addWareHouse(this.wareHouse).subscribe(data => {
 			this.getProductList();
 			this.wareHouse = new WareHouse();
 			jQuery('#warehouse').modal('hide');
 			this.alertifyService.success(data);
-			this.clearFormGroup(this.wareHouseAddForm); this.getWareHouseDto();
+			this.clearFormGroup(this.wareHouseAddForm); 
+			this.getWareHouseDto();
+		},error => {
+			this.alertifyService.error("You Entered Wrong Data Try Again");
 		})
-
 	}
 
 	updateWareHouse() {
@@ -137,7 +156,7 @@ export class WareHouseComponent implements AfterViewInit, OnInit {
 	createWareHouseAddForm() {
 		this.wareHouseAddForm = this.formBuilder.group({
 			id: [0],
-			status: [false, Validators.required],
+			status: [true, Validators.required],
 			isDeleted: [Validators.required],
 			productId: [0, Validators.required],
 			amount: [0, Validators.required],
@@ -173,9 +192,9 @@ export class WareHouseComponent implements AfterViewInit, OnInit {
 		Object.keys(group.controls).forEach(key => {
 			group.get(key).setErrors(null);
 			if (key == 'id')
-				group.get(key).setValue(0);
+				group.get(key).setValue("");
 			if (key == 'productId')
-				group.get(key).setValue(0);
+				group.get(key).setValue("");
 			if (key == 'amount')
 				group.get(key).setValue(0);
 			if (key == 'isReady')
@@ -184,8 +203,6 @@ export class WareHouseComponent implements AfterViewInit, OnInit {
 				group.get(key).setValue(0);
 			if (key == 'status')
 				group.get(key).setValue(true);
-			if (key == 'isDeleted')
-				group.get(key).setValue(false);
 		});
 	}
 

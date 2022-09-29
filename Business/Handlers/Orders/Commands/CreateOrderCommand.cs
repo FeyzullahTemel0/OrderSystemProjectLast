@@ -51,15 +51,14 @@ namespace Business.Handlers.Orders.Commands
 
 				var result = await _mediator.Send(new ExistWareHouseByProductIdAndAmountQuery { ProductId = request.ProductId, Amount = request.Amount ,Size = request.Size });
 
-				if (result.Data == false)
+				if (result.Data != true)
 					return new ErrorResult(Messages.NameAlreadyExist);
 
 				var getWareHouse = await _mediator.Send(new GetWareHouseByProductIdQuery { ProductId = request.ProductId, Amount = request.Amount ,Size = request.Size});
 
                 getWareHouse.Data.Amount = getWareHouse.Data.Amount  - request.Amount;
-
+				
 				var UpdateWareHouse = await _mediator.Send(new UpdateWareHouseCommand
-
                 {
 					ProductId = getWareHouse.Data.ProductId,
 					Amount = getWareHouse.Data.Amount,

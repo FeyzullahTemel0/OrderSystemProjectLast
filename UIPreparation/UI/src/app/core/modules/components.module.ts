@@ -27,6 +27,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { AdminLayoutRoutes } from '../components/app/layouts/admin-layout/admin-layout.routing';
 import { TranslationService } from '../services/translation.service';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { TranslationService } from '../services/translation.service';
         MatFormFieldModule,
         MatInputModule,
         MatSelectModule,
+        MatAutocompleteModule,
         MatTooltipModule,
         MatTableModule,
         MatPaginatorModule,

@@ -26,12 +26,8 @@ namespace DataAccess.Concrete.EntityFramework
             //Temel Linq sorgusu
             var resultData = await (from order in Context.Orders
                                     join product in Context.Products on order.ProductId equals product.Id
-
                                     join customer in Context.Customers on order.CustomerId equals customer.Id
-
-                                    where order.isDeleted == false 
-
-
+                                    where order.isDeleted == false
                                     select new OrderDto()
                                     {
                                         Id = order.Id,
@@ -45,8 +41,9 @@ namespace DataAccess.Concrete.EntityFramework
                                         CustomerId = order.CustomerId,
                                         ProductName = product.Name,
                                         CustomerName = customer.CustomerName,
-                                        Amount = order.Amount
-                                        
+                                        Amount = order.Amount,
+                                        Size = order.Size
+
                                     }).ToListAsync();
 
             return resultData;

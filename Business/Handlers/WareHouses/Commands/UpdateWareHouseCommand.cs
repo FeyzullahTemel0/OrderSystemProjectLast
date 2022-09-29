@@ -27,7 +27,7 @@ namespace Business.Handlers.WareHouses.Commands
         public int ProductId { get; set; }
         public int Amount { get; set; }
         public bool isReady { get; set; }
-        public object Size { get; internal set; }
+        public int Size { get; set; }
 
         public class UpdateWareHouseCommandHandler : IRequestHandler<UpdateWareHouseCommand, IResult>
 		{
@@ -55,6 +55,7 @@ namespace Business.Handlers.WareHouses.Commands
                 isThereWareHouseRecord.ProductId = request.ProductId;
                 isThereWareHouseRecord.Amount = request.Amount;
                 isThereWareHouseRecord.isReady = request.isReady;
+                isThereWareHouseRecord.Size = request.Size;
 
 
 

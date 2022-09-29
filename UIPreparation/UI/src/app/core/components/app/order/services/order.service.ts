@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Order } from '../models/Order';
 import { environment } from 'environments/environment';
-import { OrderDetails } from '../models/orderdetailsdto';
+import { OrderDetailsDto } from '../models/orderdetailsdto';
 
 
 @Injectable({
@@ -19,9 +19,9 @@ export class OrderService {
     return this.httpClient.get<Order[]>(environment.getApiUrl + '/orders/getall')
   }
 
-  getOrderDetailsList(): Observable<OrderDetails[]> {
+  getOrderDetailsList(): Observable<OrderDetailsDto[]> {
 
-    return this.httpClient.get<OrderDetails[]>(environment.getApiUrl + '/orders/getorderdetailsdto')//***
+    return this.httpClient.get<OrderDetailsDto[]>(environment.getApiUrl + '/orders/getorderdetailsdto')//***
    }
   
   getOrderById(id: number): Observable<Order> {

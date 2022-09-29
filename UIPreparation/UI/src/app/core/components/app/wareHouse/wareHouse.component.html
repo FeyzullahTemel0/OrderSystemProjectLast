@@ -33,13 +33,6 @@
                   </td>
                 </ng-container>
 
-                <ng-container matColumnDef="isDeleted">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'isDeleted'|translate}}</th>
-                  <td mat-cell *matCellDef="let element">
-                    <mat-checkbox [checked]="element.isDeleted" [disabled]="true"></mat-checkbox>
-                  </td>
-                </ng-container>
-
                 <ng-container matColumnDef="productId">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'productId'|translate}}</th>
                   <td mat-cell *matCellDef="let element">{{element.productId}}</td>
@@ -121,9 +114,13 @@
           <p>Select Product Name</p>
           <div class="row">
             <div class="col-md-12">
-              <select class="browser-default custom-select" formControlName="productId">
-                <option *ngFor="let item of productList" [value]="item.id">{{item.name}}</option>
-              </select>
+              <mat-form-field>
+                <input type="text" aria-label="Number" matInput formControlName="productId" [matAutocomplete]="auto1">
+                <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" [displayWith]="displayFn">
+                  <mat-option *ngFor="let item of filterProduct | async" [value]="item">{{item.name}}
+                  </mat-option>
+                </mat-autocomplete>
+                </mat-form-field>
             </div>
           </div>
           <p>Select Size</p>
@@ -153,13 +150,7 @@
           </div>
           <div class="row">
             <div class="col col-md-2">
-              <mat-checkbox formControlName="status" id="status" name="status"> status
-              </mat-checkbox>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col col-md-2">
-              <mat-checkbox formControlName="isDeleted" id="isDeleted" name="isDeleted"> isDeleted
+              <mat-checkbox formControlName="status" id="status" [disabled]='true' name="status"> status
               </mat-checkbox>
             </div>
           </div>

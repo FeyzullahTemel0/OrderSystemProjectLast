@@ -91,6 +91,8 @@ export class ProductComponent implements AfterViewInit, OnInit {
 			this.alertifyService.success(data);
 			this.clearFormGroup(this.productAddForm);
 
+		},error => {
+			this.alertifyService.error("You Entered Wrong Data Try Again");
 		})
 
 	}

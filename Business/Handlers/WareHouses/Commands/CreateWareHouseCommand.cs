@@ -16,11 +16,11 @@ using Business.Handlers.WareHouses.ValidationRules;
 
 namespace Business.Handlers.WareHouses.Commands
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	public class CreateWareHouseCommand : IRequest<IResult>
-	{
+    /// <summary>
+    /// 
+    /// </summary>
+    public class CreateWareHouseCommand : IRequest<IResult>
+    {
         public int CreatedUserId { get; set; }
         public int LastUpdatedUserId { get; set; }
         public bool Status { get; set; }
@@ -30,21 +30,21 @@ namespace Business.Handlers.WareHouses.Commands
         public int Size { get; set; }
 
         public class CreateWareHouseCommandHandler : IRequestHandler<CreateWareHouseCommand, IResult>
-		{
-			private readonly IWareHouseRepository _wareHouseRepository;
-			private readonly IMediator _mediator;
-			public CreateWareHouseCommandHandler(IWareHouseRepository wareHouseRepository, IMediator mediator)
-			{
-				_wareHouseRepository = wareHouseRepository;
-				_mediator = mediator;
-			}
+        {
+            private readonly IWareHouseRepository _wareHouseRepository;
+            private readonly IMediator _mediator;
+            public CreateWareHouseCommandHandler(IWareHouseRepository wareHouseRepository, IMediator mediator)
+            {
+                _wareHouseRepository = wareHouseRepository;
+                _mediator = mediator;
+            }
 
-			[ValidationAspect(typeof(CreateWareHouseValidator), Priority = 1)]
-			[CacheRemoveAspect("Get")]
-			[LogAspect(typeof(FileLogger))]
-			[SecuredOperation(Priority = 1)]
-			public async Task<IResult> Handle(CreateWareHouseCommand request, CancellationToken cancellationToken)
-			{
+            [ValidationAspect(typeof(CreateWareHouseValidator), Priority = 1)]
+            [CacheRemoveAspect("Get")]
+            [LogAspect(typeof(FileLogger))]
+            [SecuredOperation(Priority = 1)]
+            public async Task<IResult> Handle(CreateWareHouseCommand request, CancellationToken cancellationToken)
+            {
                 var isThereWareHouseRecord = _wareHouseRepository.Query().Any(u => u.ProductId == request.ProductId && u.isDeleted == false);
 
                 if (isThereWareHouseRecord == true)
@@ -57,17 +57,18 @@ namespace Business.Handlers.WareHouses.Commands
                     LastUpdatedUserId = request.LastUpdatedUserId,
                     LastUpdatedDate = System.DateTime.Now,
                     Status = request.Status,
-                    isDeleted = false,
                     ProductId = request.ProductId,
                     Amount = request.Amount,
                     isReady = request.isReady,
                     Size = request.Size,
+                    isDeleted = false
                 };
 
                 _wareHouseRepository.Add(addedWareHouse);
-				await _wareHouseRepository.SaveChangesAsync();
-				return new SuccessResult(Messages.Added);
-			}
-		}
-	}
+                await _wareHouseRepository.SaveChangesAsync();
+                return new SuccessResult(Messages.Added);
+
+            }
+        }
+    }
 }
